@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级搜索网页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* iOS风格弹窗 */
+        .popup {
+            width: 90%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+
+        .popup-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1d1d1f;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .platform-btn {
+            flex: 1;
+            padding: 12px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .apple-btn {
+            background-color: #0071e3;
+            color: #fff;
+        }
+
+        .apple-btn:hover {
+            background-color: #0077ed;
+        }
+
+        .android-btn {
+            background-color: #34a853;
+            color: #fff;
+        }
+
+        .android-btn:hover {
+            background-color: #38b058;
+        }
+
+        /* 搜索容器 */
+        .search-container {
+            display: none;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .search-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        #app-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #app-input:focus {
+            border-color: #0071e3;
+        }
+
+        #search-btn {
+            padding: 12px 20px;
+            background-color: #0071e3;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        #search-btn:hover {
+            background-color: #0077ed;
+        }
+
+        /* 底部信息 */
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .author {
+            font-size: 14px;
+            color: #86868b;
+            margin-bottom: 5px;
+        }
+
+        .warning {
+            font-size: 12px;
+            color: #ff3b30;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS弹窗 -->
+    <div class="popup" id="platform-popup">
+        <div class="popup-title">请选择你的设备</div>
+        <div class="button-group">
+            <button class="platform-btn apple-btn" id="apple-btn">苹果用户</button>
+            <button class="platform-btn android-btn" id="android-btn">安卓用户</button>
+        </div>
+    </div>
+
+    <!-- 搜索界面 -->
+    <div class="search-container" id="search-container">
+        <div class="search-title">高级搜索网页</div>
+        <div class="input-group">
+            <input type="text" id="app-input" placeholder="请输入要搜索的应用名称（如微信）">
+            <button id="search-btn">确认搜索</button>
+        </div>
+    </div>
+
+    <!-- 底部信息 -->
+    <div class="footer">
+        <div class="author">作者：邱砚辞</div>
+        <div class="warning">该网页不可用来搜索违法应用</div>
+    </div>
+
+    <script>
+        // 获取元素
+        const popup = document.getElementById('platform-popup');
+        const searchContainer = document.getElementById('search-container');
+        const appleBtn = document.getElementById('apple-btn');
+        const androidBtn = document.getElementById('android-btn');
+        const appInput = document.getElementById('app-input');
+        const searchBtn = document.getElementById('search-btn');
+
+        // 选择设备后显示搜索界面
+        appleBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+            searchContainer.style.display = 'block';
+        });
+
+        androidBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+            searchContainer.style.display = 'block';
+        });
+
+        // 搜索跳转逻辑
+        searchBtn.addEventListener('click', () => {
+            const appName = appInput.value.trim();
+            if (appName === '') {
+                alert('请输入应用名称');
+                return;
+            }
+            // 使用搜索引擎跳转（高级搜索逻辑）
+            const searchUrl = `https://www.baidu.com/s?wd=${appName} 官方下载`;
+            window.open(searchUrl, '_blank');
+        });
+
+        // 支持回车搜索
+        appInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
